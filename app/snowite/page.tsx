@@ -12,14 +12,20 @@ export default function SnowitePage() {
     if (typeof window !== 'undefined' && 'Telegram' in window) {
       const webApp = (window as any).Telegram.WebApp;
       webApp.ready();
-
-      // Получаем данные о приглашенных пользователях через Telegram
-      webApp.onEvent('user_invited', (user: any) => {
+  
+      interface User {
+        id: number;
+        username: string;
+        firstName: string;
+        lastName: string;
+      }
+  
+      webApp.onEvent('user_invited', (user: User) => {
         setGingersCount((prev) => prev + 1);
-        setGingerBalance((prev) => prev + 100); // Добавляем 100 SANT за каждого приглашенного
+        setGingerBalance((prev) => prev + 100);
       });
     }
-  }, []);
+  }, []);  
 
   const handleClaim = () => {
     alert('Claim button clicked');
@@ -91,7 +97,7 @@ export default function SnowitePage() {
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 w-full bg-white text-black flex justify-around py-4 border-t">
         <Link href="/" className="flex flex-col items-center">
-          <img src="/icons/home.svg" alt="Home" className="h-8 w-8" />
+        <Image src="/icons/home.svg" alt="Home" width={32} height={32} />
           <span>Home</span>
         </Link>
         <Link href="/decorations" className="flex flex-col items-center">
